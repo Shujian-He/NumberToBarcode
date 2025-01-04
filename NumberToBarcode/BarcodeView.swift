@@ -5,6 +5,7 @@
 //  Created by Shujian He on 03/01/2025.
 //
 
+import UIKit
 import SwiftUI
 import CoreImage.CIFilterBuiltins
 
@@ -32,12 +33,20 @@ enum BarcodeType {
 
 struct BarcodeGenerator {
     let context = CIContext()
-
-    // Function to generate barcodes
-    func generateBarcode(text: String, type: BarcodeType = .code128, color: ColorScheme = .light) -> Image {
+    
+    // Generate a barcode SwiftUI Image
+    func generateBarcodeImage(text: String, type: BarcodeType = .code128, color: ColorScheme = .light) -> Image? {
+        guard let uiImage = generateBarcodeUIImage(text: text, type: type, color: color) else {
+            return Image(systemName: "xmark.circle") // Fallback if generation fails
+        }
+        return Image(uiImage: uiImage)
+    }
+    
+    // Generate a barcode UIImage
+    func generateBarcodeUIImage(text: String, type: BarcodeType = .code128, color: ColorScheme = .light) -> UIImage? {
         
         if text.isEmpty {
-            return Image(systemName: "xmark.circle")
+            return nil // Fallback if text is empty
         }
         
         let filter = type.filter
@@ -46,7 +55,7 @@ struct BarcodeGenerator {
 
         // Ensure the output image is available
         guard let outputImage = filter.outputImage else {
-            return Image(systemName: "xmark.circle") // Fallback if generation fails
+            return nil // Fallback if generation fails
         }
 
         // Scale the image to make it higher resolution
@@ -65,10 +74,10 @@ struct BarcodeGenerator {
         
         // Render the high-resolution image
         if let cgImage = context.createCGImage(transformedImage, from: transformedImage.extent) {
-            return Image(decorative: cgImage, scale: 1.0, orientation: .up) // Return SwiftUI.Image
+            return UIImage(cgImage: cgImage)
         }
 
-        return Image(systemName: "xmark.circle") // Fallback if rendering fails
+        return nil // Fallback if generation fails
     }
 }
 
@@ -80,17 +89,33 @@ struct BarcodeView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            barcodeGenerator.generateBarcode(text: inputText, type: barcodeType, color: colorScheme)
-                .resizable()
-                .scaledToFit()
-
+            if let barcodeImage = barcodeGenerator.generateBarcodeUIImage(text: inputText, type: barcodeType, color: colorScheme) {
+                Image(uiImage: barcodeImage)
+                    .resizable()
+                    .scaledToFit()
+                    .contextMenu { // Add context menu
+                        Button(action: {
+                            // stupid way to save image
+                            // SwiftUI Image doesn't provide a way to save
+                            // so needed to generate a UIImage first
+                            // then show it in SwiftUI Image but save in UIImage
+                            UIImageWriteToSavedPhotosAlbum(barcodeImage, nil, nil, nil)
+                        }) {
+                            Text("Save to Photos")
+                            Image(systemName: "square.and.arrow.down")
+                        }
+                    }
+            } else {
+                Image(systemName: "xmark.circle")
+                    .resizable()
+                    .scaledToFit()
+            }
             Text(inputText.isEmpty ? "EMPTY INPUT" : inputText)
         }
         .padding()
     }
-    
 }
 
 #Preview {
-    BarcodeView(inputText: "76457616829459", barcodeType: .pdf417)
+    BarcodeView(inputText: "7123456789", barcodeType: .pdf417)
 }

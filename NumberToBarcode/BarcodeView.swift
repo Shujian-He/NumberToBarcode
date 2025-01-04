@@ -34,7 +34,7 @@ struct BarcodeGenerator {
     let context = CIContext()
 
     // Function to generate barcodes
-    func generateBarcode(text: String, type: BarcodeType = .code128) -> Image {
+    func generateBarcode(text: String, type: BarcodeType = .code128, color: ColorScheme = .light) -> Image {
         
         if text.isEmpty {
             return Image(systemName: "xmark.circle")
@@ -52,8 +52,17 @@ struct BarcodeGenerator {
         // Scale the image to make it higher resolution
         let scaleX: CGFloat = 10.0 // Horizontal scale
         let scaleY: CGFloat = 10.0 // Vertical scale
-        let transformedImage = outputImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+        var transformedImage = outputImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
 
+        // Optionally invert colors for dark mode
+        if color == .dark {
+            let invertFilter = CIFilter.colorInvert()
+            invertFilter.inputImage = transformedImage
+            if let invertedImage = invertFilter.outputImage {
+                transformedImage = invertedImage
+            }
+        }
+        
         // Render the high-resolution image
         if let cgImage = context.createCGImage(transformedImage, from: transformedImage.extent) {
             return Image(decorative: cgImage, scale: 1.0, orientation: .up) // Return SwiftUI.Image
@@ -67,10 +76,11 @@ struct BarcodeView: View {
     var inputText: String
     var barcodeGenerator = BarcodeGenerator()
     var barcodeType: BarcodeType = .code128
+    var colorScheme: ColorScheme = .light
 
     var body: some View {
         VStack(spacing: 0) {
-            barcodeGenerator.generateBarcode(text: inputText, type: barcodeType)
+            barcodeGenerator.generateBarcode(text: inputText, type: barcodeType, color: colorScheme)
                 .resizable()
                 .scaledToFit()
 
@@ -82,5 +92,5 @@ struct BarcodeView: View {
 }
 
 #Preview {
-    BarcodeView(inputText: "76457616829459", barcodeType: .code128)
+    BarcodeView(inputText: "76457616829459", barcodeType: .pdf417)
 }

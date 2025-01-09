@@ -4,6 +4,7 @@
 //
 //  Created by Shujian He on 09/01/2025.
 //
+//  Based on the insights from https://www.hackingwithswift.com/books/ios-swiftui/scanning-qr-codes-with-swiftui
 
 import SwiftUI
 import CodeScanner
@@ -61,11 +62,11 @@ struct ScannerView: View {
                     }
                     if isCopied {
                         Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green) // Set the color to green
-                            .font(.headline) // Adjust size if needed
+                            .foregroundColor(.green)
+                            .font(.headline)
                         Text("Text Copied")
-                            .foregroundColor(.green) // Set the text color to green
-                            .font(.headline) // Adjust font style
+                            .foregroundColor(.green)
+                            .font(.headline)
                     }
                 }
             }

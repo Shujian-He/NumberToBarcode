@@ -4,6 +4,7 @@
 //
 //  Created by Shujian He on 03/01/2025.
 //
+//  Functions to generate barcodes are adapted from Apple Core Image Documentation at https://developer.apple.com/documentation/coreimage/cifilter/generator_filters
 
 import UIKit
 import SwiftUI

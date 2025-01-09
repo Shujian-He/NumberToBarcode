@@ -4,6 +4,7 @@
 //
 //  Created by Shujian He on 09/01/2025.
 //
+//  Based on the insights from https://www.appcoda.com/swiftui-barcode-generator/
 
 import SwiftUI
 

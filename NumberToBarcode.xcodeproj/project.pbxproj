@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A984BF712D2FB361004217A1 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = A984BF702D2FB361004217A1 /* CodeScanner */; };
+		A984BF7A2D303979004217A1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A984BF792D303979004217A1 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A984BF792D303979004217A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A984BF7B2D303B1D004217A1 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A9BA5B152D28048000CB4070 /* NumberToBarcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NumberToBarcode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9BA5B252D28048100CB4070 /* NumberToBarcodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NumberToBarcodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9BA5B2F2D28048100CB4070 /* NumberToBarcodeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NumberToBarcodeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +100,8 @@
 				A9BA5B282D28048100CB4070 /* NumberToBarcodeTests */,
 				A9BA5B322D28048100CB4070 /* NumberToBarcodeUITests */,
 				A9BA5B162D28048000CB4070 /* Products */,
+				A984BF792D303979004217A1 /* README.md */,
+				A984BF7B2D303B1D004217A1 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -234,6 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A984BF7A2D303979004217A1 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

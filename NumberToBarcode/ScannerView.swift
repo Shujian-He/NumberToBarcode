@@ -22,7 +22,6 @@ struct ScannerView: View {
         switch result {
         case .success(let result):
             scannedCode = result.string
-
         case .failure(let error):
             scannedCode = "ERROR: \(error)"
         }
@@ -49,12 +48,12 @@ struct ScannerView: View {
                 .drawingGroup() // disable stupid animation
 
             Spacer()
+            
             if !isHiddenResult {
                 Text("You scanned: ")
                     .font(.headline)
                 Text("\(scannedCode ?? "")")
                     .textSelection(.enabled)
-                
                 HStack() {
                     Button("Copy Result") {
                         pasteboard.string = scannedCode
@@ -69,8 +68,6 @@ struct ScannerView: View {
                             .font(.headline) // Adjust font style
                     }
                 }
-                
-                
             }
             
             Spacer()
@@ -87,9 +84,6 @@ struct ScannerView: View {
         }
     }
 }
-    
-
-
 
 #Preview {
     ScannerView()

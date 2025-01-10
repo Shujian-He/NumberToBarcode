@@ -5,6 +5,7 @@
 //  Created by Shujian He on 09/01/2025.
 //
 //  Based on the insights from https://www.appcoda.com/swiftui-barcode-generator/
+//
 
 import SwiftUI
 
@@ -12,6 +13,11 @@ import SwiftUI
 // it's weird that Apple doesn't provide a native way to do that in 2024
 func hideKeyboard() {
     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+}
+
+// stupid function to show clear button in a text field
+func showClearButton() {
+    UITextField.appearance().clearButtonMode = .whileEditing
 }
 
 struct GeneratorView: View {
@@ -28,16 +34,15 @@ struct GeneratorView: View {
             Text("Barcode Generator")
                 .font(.system(size: 35, weight: .black, design: .default))
             
-            Text("Enter barcode text below (a-zA-Z0-9)")
+            Text("Enter barcode text below (ASCII only)")
                 .font(.headline)
-                .onTapGesture {
-                    hideKeyboard()
-                }
+                .onTapGesture(perform: hideKeyboard)
                 
             TextField("Type your text", text: $userInputText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .font(.headline)
                 .focused($isFocused)
+                .onAppear(perform: showClearButton)
                 .onChange(of: isFocused) {
                     if isFocused {
                         isGenerated = false
@@ -45,7 +50,7 @@ struct GeneratorView: View {
                 }
                 .onChange(of: userInputText) {
                     // Validate and filter input to allow only ASCII characters
-                    let filtered = userInputText.replacingOccurrences(of: "[^a-zA-Z0-9]", with: "", options: .regularExpression)
+                    let filtered = userInputText.replacingOccurrences(of: "[^\\x20-\\x7E]", with: "", options: .regularExpression)
 //                    let filtered = userInputText.filter { $0.isASCII && ($0.isLetter || $0.isNumber) }
 //                    if filtered != userInputText {
 //                        userInputText = ""

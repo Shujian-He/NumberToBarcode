@@ -5,6 +5,7 @@
 //  Created by Shujian He on 03/01/2025.
 //
 //  Functions to generate barcodes are adapted from Apple Core Image Documentation at https://developer.apple.com/documentation/coreimage/cifilter/generator_filters
+//
 
 import UIKit
 import SwiftUI
@@ -21,7 +22,7 @@ func code128Barcode(inputMessage: String) -> CIImage {
 func aztecCode(inputMessage: String) -> CIImage {
     let aztecCodeGenerator = CIFilter.aztecCodeGenerator()
     aztecCodeGenerator.message = inputMessage.data(using: .ascii)!
-//    aztecCodeGenerator.correctionLevel = 15
+//    aztecCodeGenerator.correctionLevel = 95
 //    aztecCodeGenerator.compactStyle = 0
 //    aztecCodeGenerator.layers = 10
     return aztecCodeGenerator.outputImage!
@@ -55,7 +56,7 @@ func dataMatrixCode(inputMessage: String) -> CIImage {
     let barcodeGenerator = CIFilter.barcodeGenerator()
     barcodeGenerator.barcodeDescriptor = CIDataMatrixCodeDescriptor(payload: inputMessage.data(using: .ascii)!, rowCount: 40, columnCount: 40, eccVersion: .v050)!
     return barcodeGenerator.outputImage ?? CIImage()
-}
+}  // not yet supported!!!!!
 
 // Enum for supported barcode types
 enum BarcodeType {
@@ -65,21 +66,21 @@ enum BarcodeType {
     case pdf417
     case dataMatrix
 
-    // Associated CIFilter for each barcode type
-    var filter: CIFilter {
-        switch self {
-        case .code128:
-            return CIFilter.code128BarcodeGenerator()
-        case .qr:
-            return CIFilter.qrCodeGenerator()
-        case .aztec:
-            return CIFilter.aztecCodeGenerator()
-        case .pdf417:
-            return CIFilter.pdf417BarcodeGenerator()
-        case .dataMatrix:
-            return CIFilter.barcodeGenerator()
-        }
-    }
+//    // Associated CIFilter for each barcode type
+//    var filter: CIFilter {
+//        switch self {
+//        case .code128:
+//            return CIFilter.code128BarcodeGenerator()
+//        case .qr:
+//            return CIFilter.qrCodeGenerator()
+//        case .aztec:
+//            return CIFilter.aztecCodeGenerator()
+//        case .pdf417:
+//            return CIFilter.pdf417BarcodeGenerator()
+//        case .dataMatrix:
+//            return CIFilter.barcodeGenerator()
+//        }
+//    }
 }
 
 struct BarcodeGenerator {
@@ -105,6 +106,11 @@ struct BarcodeGenerator {
         // you can't use filter.message = text.data(using: .ascii)!
 //        filter.setValue(text.data(using: .ascii), forKey: "inputMessage")
 
+        // Ensure the output image is available
+//        guard let outputImage = filter.outputImage else {
+//            return nil // Fallback if generation fails
+//        }
+        
         var outputImage: CIImage
         
         switch type {
@@ -120,11 +126,6 @@ struct BarcodeGenerator {
             outputImage = dataMatrixCode(inputMessage: text)
         }
     
-        // Ensure the output image is available
-//        guard let outputImage = filter.outputImage else {
-//            return nil // Fallback if generation fails
-//        }
-
         // Scale the image to make it higher resolution
         let scaleX: CGFloat = 10.0 // Horizontal scale
         let scaleY: CGFloat = 10.0 // Vertical scale
@@ -184,5 +185,5 @@ struct BarcodeView: View {
 }
 
 #Preview {
-    BarcodeView(inputText: "712", barcodeType: .pdf417)
+    BarcodeView(inputText: "42", barcodeType: .pdf417)
 }

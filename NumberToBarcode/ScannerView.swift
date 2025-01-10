@@ -5,6 +5,7 @@
 //  Created by Shujian He on 09/01/2025.
 //
 //  Based on the insights from https://www.hackingwithswift.com/books/ios-swiftui/scanning-qr-codes-with-swiftui
+//
 
 import SwiftUI
 import CodeScanner
@@ -73,14 +74,14 @@ struct ScannerView: View {
             
             Spacer()
 
-            // what a pity, I have to use this and hide to keep that hilarious padding
+            // It's so funny that I have to add this and hide to keep that hilarious padding
             TextField("", text: $userInputText)
                 .hidden()
             
         }
         .padding()
         .sheet(isPresented: $isPresentingScanner) {
-            CodeScannerView(codeTypes: [.code128, .qr, .aztec, .pdf417], showViewfinder: true, simulatedData: "https://github.com/twostraws/CodeScanner?tab=readme-ov-file", completion: handleScan)
+            CodeScannerView(codeTypes: [.code128, .qr, .aztec, .pdf417], showViewfinder: true, simulatedData: "https://github.com/twostraws/CodeScanner", completion: handleScan)
                 .ignoresSafeArea()
         }
     }

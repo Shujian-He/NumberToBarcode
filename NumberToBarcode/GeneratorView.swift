@@ -9,6 +9,7 @@
 
 import SwiftUI
 
+
 // stupid function to dismiss keyboard
 // it's weird that Apple doesn't provide a native way to do that in 2024
 func hideKeyboard() {
@@ -25,7 +26,9 @@ struct GeneratorView: View {
     @State private var isGenerated: Bool = false
     @FocusState private var isFocused: Bool
     @State private var selectedBarcodeType: BarcodeType = .code128
+    @State private var selectedOnlineBarcodeType: onlineBarcodeType = .ean13
     @State private var isReadColor = false
+    @State private var isUseOnlineImage = false
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -51,25 +54,31 @@ struct GeneratorView: View {
                 .onChange(of: userInputText) {
                     // Validate and filter input to allow only ASCII characters
                     let filtered = userInputText.replacingOccurrences(of: "[^\\x20-\\x7E]", with: "", options: .regularExpression)
-//                    let filtered = userInputText.filter { $0.isASCII && ($0.isLetter || $0.isNumber) }
-//                    if filtered != userInputText {
-//                        userInputText = ""
-//                    } else {
-//                        userInputText = filtered
-//                    }
                     userInputText = filtered
                 }
             
-            Picker("Select Barcode Type", selection: $selectedBarcodeType) {
-                Text("Code128").tag(BarcodeType.code128)
-                Text("QR Code").tag(BarcodeType.qr)
-                Text("Aztec").tag(BarcodeType.aztec)
-                Text("PDF417").tag(BarcodeType.pdf417)
-//                Text("Data Matrix").tag(BarcodeType.dataMatrix) // not yet supported!!!!!
-            }
-                .pickerStyle(.segmented)
+            Toggle("Use API", isOn: $isUseOnlineImage)
             
-            Toggle("Follow system color", isOn: $isReadColor)
+            if isUseOnlineImage {
+                Picker("Select Barcode Type", selection: $selectedOnlineBarcodeType) {
+                    Text("EAN8").tag(onlineBarcodeType.ean8)
+                    Text("EAN13").tag(onlineBarcodeType.ean13)
+                }
+                    .pickerStyle(.segmented)
+                
+            } else {
+                Picker("Select Barcode Type", selection: $selectedBarcodeType) {
+                    Text("Code128").tag(BarcodeType.code128)
+                    Text("QR Code").tag(BarcodeType.qr)
+                    Text("Aztec").tag(BarcodeType.aztec)
+                    Text("PDF417").tag(BarcodeType.pdf417)
+    //                Text("Data Matrix").tag(BarcodeType.dataMatrix) // not yet supported!!!!!
+                }
+                    .pickerStyle(.segmented)
+                
+                Toggle("Follow system color", isOn: $isReadColor)
+            }
+
             
             Button("Generate") {
                 isGenerated = true
@@ -86,11 +95,15 @@ struct GeneratorView: View {
             HStack(alignment: .center) {
                 Spacer()
                 if isGenerated {
-                    if !isReadColor {
-                        BarcodeView(inputText: userInputText, barcodeType: selectedBarcodeType)
-                        
+                    if !isUseOnlineImage {
+                        if !isReadColor {
+                            BarcodeView(inputText: userInputText, barcodeType: selectedBarcodeType)
+                            
+                        } else {
+                            BarcodeView(inputText: userInputText, barcodeType: selectedBarcodeType, colorScheme: colorScheme)
+                        }
                     } else {
-                        BarcodeView(inputText: userInputText, barcodeType: selectedBarcodeType, colorScheme: colorScheme)
+                        OnlineBarcodeView(barcodeValue: $userInputText, barcodeType: $selectedOnlineBarcodeType)
                     }
                 }
                 Spacer()

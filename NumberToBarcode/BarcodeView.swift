@@ -65,22 +65,6 @@ enum BarcodeType {
     case aztec
     case pdf417
     case dataMatrix
-
-//    // Associated CIFilter for each barcode type
-//    var filter: CIFilter {
-//        switch self {
-//        case .code128:
-//            return CIFilter.code128BarcodeGenerator()
-//        case .qr:
-//            return CIFilter.qrCodeGenerator()
-//        case .aztec:
-//            return CIFilter.aztecCodeGenerator()
-//        case .pdf417:
-//            return CIFilter.pdf417BarcodeGenerator()
-//        case .dataMatrix:
-//            return CIFilter.barcodeGenerator()
-//        }
-//    }
 }
 
 struct BarcodeGenerator {
@@ -100,16 +84,6 @@ struct BarcodeGenerator {
         if text.isEmpty {
             return nil // Fallback if text is empty
         }
-        
-//        let filter = type.filter
-        // compromise that filter is a CIFilter
-        // you can't use filter.message = text.data(using: .ascii)!
-//        filter.setValue(text.data(using: .ascii), forKey: "inputMessage")
-
-        // Ensure the output image is available
-//        guard let outputImage = filter.outputImage else {
-//            return nil // Fallback if generation fails
-//        }
         
         var outputImage: CIImage
         

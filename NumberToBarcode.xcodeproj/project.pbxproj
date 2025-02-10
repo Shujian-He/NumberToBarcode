@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A96AB57E2D59FAE200045DD1 /* barcode_server.py in Resources */ = {isa = PBXBuildFile; fileRef = A96AB57D2D59FAE200045DD1 /* barcode_server.py */; };
 		A984BF712D2FB361004217A1 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = A984BF702D2FB361004217A1 /* CodeScanner */; };
 		A984BF7A2D303979004217A1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A984BF792D303979004217A1 /* README.md */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A96AB57D2D59FAE200045DD1 /* barcode_server.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = barcode_server.py; sourceTree = "<group>"; };
 		A984BF792D303979004217A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A984BF7B2D303B1D004217A1 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A9BA5B152D28048000CB4070 /* NumberToBarcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NumberToBarcode.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 		A9BA5B0C2D28048000CB4070 = {
 			isa = PBXGroup;
 			children = (
+				A96AB57D2D59FAE200045DD1 /* barcode_server.py */,
 				A984BF7B2D303B1D004217A1 /* LICENSE */,
 				A984BF792D303979004217A1 /* README.md */,
 				A9BA5B172D28048000CB4070 /* NumberToBarcode */,
@@ -239,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A96AB57E2D59FAE200045DD1 /* barcode_server.py in Resources */,
 				A984BF7A2D303979004217A1 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

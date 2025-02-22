@@ -16,7 +16,7 @@ func code128Barcode(inputMessage: String) -> CIImage {
     code128Barcode.message = inputMessage.data(using: .ascii)!
 //    code128Barcode.quietSpace = 5
 //    code128Barcode.barcodeHeight = 20
-    return code128Barcode.outputImage!
+    return code128Barcode.outputImage ?? CIImage()
 }
 
 func aztecCode(inputMessage: String) -> CIImage {
@@ -25,14 +25,14 @@ func aztecCode(inputMessage: String) -> CIImage {
 //    aztecCodeGenerator.correctionLevel = 95
 //    aztecCodeGenerator.compactStyle = 0
 //    aztecCodeGenerator.layers = 10
-    return aztecCodeGenerator.outputImage!
+    return aztecCodeGenerator.outputImage ?? CIImage()
 }
 
 func qrCode(inputMessage: String) -> CIImage {
     let qrCodeGenerator = CIFilter.qrCodeGenerator()
     qrCodeGenerator.message = inputMessage.data(using: .ascii)!
 //    qrCodeGenerator.correctionLevel = "H"
-    return qrCodeGenerator.outputImage!
+    return qrCodeGenerator.outputImage ?? CIImage()
 }
 
 func pdf417Barcode(inputMessage: String) -> CIImage {
@@ -49,7 +49,7 @@ func pdf417Barcode(inputMessage: String) -> CIImage {
 //    pdf417BarcodeGenerator.compactStyle = 1
 //    pdf417BarcodeGenerator.correctionLevel = 0.01
 //    pdf417BarcodeGenerator.alwaysSpecifyCompaction = 0
-    return pdf417BarcodeGenerator.outputImage!
+    return pdf417BarcodeGenerator.outputImage ?? CIImage()
 }
 
 func dataMatrixCode(inputMessage: String) -> CIImage {
@@ -124,14 +124,14 @@ struct BarcodeGenerator {
 }
 
 struct BarcodeView: View {
-    var inputText: String
+    var barcodeValue: String
     var barcodeGenerator = BarcodeGenerator()
     var barcodeType: BarcodeType = .code128
     var colorScheme: ColorScheme = .light
 
     var body: some View {
         VStack(spacing: 0) {
-            if let barcodeImage = barcodeGenerator.generateBarcodeUIImage(text: inputText, type: barcodeType, color: colorScheme) {
+            if let barcodeImage = barcodeGenerator.generateBarcodeUIImage(text: barcodeValue, type: barcodeType, color: colorScheme) {
                 Image(uiImage: barcodeImage)
                     .resizable()
                     .scaledToFit()
@@ -152,12 +152,12 @@ struct BarcodeView: View {
                     .resizable()
                     .scaledToFit()
             }
-            Text(inputText.isEmpty ? "EMPTY INPUT" : inputText)
+            Text(barcodeValue.isEmpty ? "EMPTY INPUT" : barcodeValue)
         }
         .padding()
     }
 }
 
 #Preview {
-    BarcodeView(inputText: "42", barcodeType: .pdf417)
+    BarcodeView(barcodeValue: "42", barcodeType: .pdf417)
 }

@@ -26,7 +26,7 @@ struct GeneratorView: View {
     @State private var isGenerated: Bool = false
     @FocusState private var isFocused: Bool
     @State private var selectedBarcodeType: BarcodeType = .code128
-    @State private var selectedOnlineBarcodeType: onlineBarcodeType = .ean13
+    @State private var selectedOnlineBarcodeType: OnlineBarcodeType = .ean13
     @State private var isReadColor = false
     @State private var isUseOnlineImage = false
     @Environment(\.colorScheme) var colorScheme
@@ -61,8 +61,8 @@ struct GeneratorView: View {
             
             if isUseOnlineImage {
                 Picker("Select Barcode Type", selection: $selectedOnlineBarcodeType) {
-                    Text("EAN8").tag(onlineBarcodeType.ean8)
-                    Text("EAN13").tag(onlineBarcodeType.ean13)
+                    Text("EAN8").tag(OnlineBarcodeType.ean8)
+                    Text("EAN13").tag(OnlineBarcodeType.ean13)
                 }
                     .pickerStyle(.segmented)
                 
@@ -79,16 +79,18 @@ struct GeneratorView: View {
                 Toggle("Follow system color", isOn: $isReadColor)
             }
 
-            
-            Button("Generate") {
+            Button(action: {
                 isGenerated = true
                 isFocused = false
+            }) {
+                Text("Generate Barcode")
+                    .font(.headline)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
             }
-                .padding()
-                .font(.title)
-                .background(.blue)
-                .foregroundColor(.white)
-                .cornerRadius(12)
                 .drawingGroup() // disable stupid animation
             
             Spacer()
@@ -97,10 +99,10 @@ struct GeneratorView: View {
                 if isGenerated {
                     if !isUseOnlineImage {
                         if !isReadColor {
-                            BarcodeView(inputText: userInputText, barcodeType: selectedBarcodeType)
+                            BarcodeView(barcodeValue: userInputText, barcodeType: selectedBarcodeType)
                             
                         } else {
-                            BarcodeView(inputText: userInputText, barcodeType: selectedBarcodeType, colorScheme: colorScheme)
+                            BarcodeView(barcodeValue: userInputText, barcodeType: selectedBarcodeType, colorScheme: colorScheme)
                         }
                     } else {
                         OnlineBarcodeView(barcodeValue: $userInputText, barcodeType: $selectedOnlineBarcodeType)

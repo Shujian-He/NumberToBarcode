@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 func fetchBarcodeImage(value: String, type: String, completion: @escaping (UIImage?) -> Void) {
-    let baseUrl = "http://192.168.31.31:12138/data"  // Replace with your actual API URL
+    let baseUrl = "http://192.168.31.31:12138/data"
     let urlString = "\(baseUrl)?value=\(value)&type=\(type)"
     
     guard let url = URL(string: urlString) else {
@@ -33,7 +33,7 @@ func fetchBarcodeImage(value: String, type: String, completion: @escaping (UIIma
     task.resume()
 }
 
-enum onlineBarcodeType {
+enum OnlineBarcodeType {
     case ean8
     case ean13
     
@@ -47,7 +47,7 @@ enum onlineBarcodeType {
 
 struct OnlineBarcodeView: View {
     @Binding var barcodeValue: String
-    @Binding var barcodeType: onlineBarcodeType
+    @Binding var barcodeType: OnlineBarcodeType
     @State private var barcodeImage: UIImage? = nil
 
     var body: some View {
